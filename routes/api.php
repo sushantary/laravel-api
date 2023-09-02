@@ -2,8 +2,6 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\Api\V1\InvoiceController;
-use App\Http\Controllers\Api\V1\CustomerController;
 
 /*
 |--------------------------------------------------------------------------
@@ -15,18 +13,14 @@ use App\Http\Controllers\Api\V1\CustomerController;
 | be assigned to the "api" middleware group. Make something great!
 |
 */
+Route::prefix('v1')->group(function (){
+    require __DIR__ . '/api/v1/users.php';
+});
+
+
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::get('ping', function () {
-    return [
-        'message' => "this is just a test"
-    ];
-});
 
-Route::group(['prefix'=>'v1','namespace'=>'App\Http\Controllers\Api\V1'],function(){
-    Route::apiResource('customers', CustomerController::class);
-    Route::apiResource('invoices', InvoiceController::class);
-});
