@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\UserResource;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Http\JsonResponse;
 class UserController extends Controller
 {
     /**
@@ -11,9 +13,8 @@ class UserController extends Controller
      */
     public function index()
     {
-        return new \Illuminate\Http\JsonResponse([
-            'data'=> 'Hello',
-        ]);
+        $users = User::query()->get();
+        return UserResource::collection($users);
     }
 
     /**
@@ -29,9 +30,7 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
-        return new \Illuminate\Http\JsonResponse([
-            'data'=>'posted'
-        ]);
+        return new UserResource($request);
     }
 
     /**
@@ -39,9 +38,7 @@ class UserController extends Controller
      */
     public function show(User $user)
     {
-        return new \Illuminate\Http\JsonResponse([
-            'data'=>$user
-        ]);
+        return new UserResource($user);
     }
 
     /**
@@ -57,9 +54,7 @@ class UserController extends Controller
      */
     public function update(Request $request, string $user)
     {
-        return new \Illuminate\Http\JsonResponse([
-            'data'=>'patched'
-        ]);
+        return new UserResource($user);
     }
 
     /**
@@ -68,7 +63,7 @@ class UserController extends Controller
     public function destroy(User $user)
     {
         return new \Illuminate\Http\JsonResponse([
-            'data'=>'deleted'
+            'data'=>'deleteed'
         ]);
     }
 }

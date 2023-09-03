@@ -8,20 +8,12 @@ use Illuminate\Database\Eloquent\Model;
 class Post extends Model
 {
     use HasFactory;
+
+    protected $fillable = ['title', 'body'];
     protected $casts=[
         'body' => 'array'
     ];
 
-    public function getTitleUpperCaseAttribute()
-    {
-        return strtoupper($this->title);
-    }
-
-    public function setTitleAttribute($value)
-    {
-        $this->attributes['title'] = strtolower($value);
-
-    }
     public function comments()
     {
         return $this->hasMany(Comment::class,'post_id');

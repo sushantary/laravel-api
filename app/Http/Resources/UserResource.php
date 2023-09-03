@@ -1,12 +1,11 @@
 <?php
 
-namespace App\Http\Resources\V1;
+namespace App\Http\Resources;
 
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
-
-class CustomerResource extends JsonResource
+class UserResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -16,14 +15,12 @@ class CustomerResource extends JsonResource
     public function toArray(Request $request): array
     {
         return [
-            'id' =>$this->id,
+            'id'=>$this->id,
             'name'=>$this->name,
-            'type'=>$this->type,
             'email'=>$this->email,
-            'address'=>$this->address,
-            'city'=>$this->city,
-            'state'=>$this->state,
-            'postalCode'=>$this->postal_code
+            'created_at'=>$this->created_at,
+            'updated_at'=>$this->updated_at,
+
         ];
     }
 }
