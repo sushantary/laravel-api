@@ -2,21 +2,47 @@
 
 namespace App\Repositories;
 
-abstract class UserRepository extends BaseRepository
+use App\Models\User;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
+
+class UserRepository extends BaseRepository
 {
 
-    abstract public function create(array $attributes)
+    public function create(array $attributes)
     {
         // TODO: Implement create() method.
+        return DB::transaction(function ()use ($attributes){
+
+        $created = User::query()->create([
+           'name'=>data_get($attributes,'name'),
+            'email'=>data_get($attributes, 'email'),
+            'password'=>Hash::make(data_get($attributes, 'password')),
+        ]);
+        return $created;
+        });
     }
 
-   abstract public function update($model, array $attributes)
+    public function update($user, array $attributes)
     {
         // TODO: Implement update() method.
+        return DB::transaction(function ()use ($user, $attributes){
+            $updated =$user->update([
+               'name'=>data_get($attributes,'name',$user->name),
+               'email'=>data_get($attributes,'email',$user->email),
+
+            ]);
+            return $user;
+        });
     }
 
-    abstract public function forceDelete($model)
+    public function forceDelete($user)
     {
         // TODO: Implement forceDelete() method.
+        return DB::transaction(function ()use ($user){
+           $deleted =$user->foreceDelete();
+
+           return $deleted;
+        });
     }
 }

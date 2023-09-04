@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Http\Resources\UserResource;
 use App\Models\User;
+use App\Repositories\PostRepository;
+use App\Repositories\UserRepository;
 use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
 class UserController extends Controller
@@ -29,8 +31,13 @@ class UserController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(Request $request, UserRepository $repository)
     {
+        $created = $repository->create($request->only([
+            'name',
+            'email',
+            'password',
+        ]));
         return new UserResource($request);
     }
 
@@ -53,18 +60,24 @@ class UserController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $user)
+    public function update(Request $request, User $user, PostRepository $repository)
     {
+        $user = $repository->update($user,$request->only([
+            'name',
+            'title',
+            'password',
+        ]));
         return new UserResource($user);
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(User $user)
+    public function destroy(User $user, UserRepository $repository)
     {
+        $user->$repository->forceDelete($user);
         return new \Illuminate\Http\JsonResponse([
-            'data'=>'deleteed'
+            'data'=>'succesfully deleted'
         ]);
     }
 }
