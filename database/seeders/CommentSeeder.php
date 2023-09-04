@@ -21,7 +21,7 @@ class CommentSeeder extends Seeder
 
         $this->truncate('comments');
 
-        Comment::factory(3)
+        Comment::factory(400)
 //            ->for(Post::factory(1),'post')
             ->create();
 
