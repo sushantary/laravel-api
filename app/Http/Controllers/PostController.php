@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Exceptions\GeneralJsonExpection;
 use App\Http\Resources\PostResource;
 use App\Models\Post;
 use App\Repositories\PostRepository;
@@ -11,11 +12,13 @@ use Illuminate\Support\Facades\DB;
 
 class PostController extends Controller
 {
+    protected $code = 422;
     /**
      * Display a listing of the resource.
      */
     public function index(Request $request)
     {
+
         $pageSize = $request->page_size ?? 20;
         $posts = Post::query()->paginate($pageSize);
         return PostResource::collection($posts);

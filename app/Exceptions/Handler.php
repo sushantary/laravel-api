@@ -7,6 +7,9 @@ use Throwable;
 
 class Handler extends ExceptionHandler
 {
+    protected $dontReport=[
+//      GeneralJsonExpection::class,
+    ];
     /**
      * The list of the inputs that are never flashed to the session on validation exceptions.
      *
@@ -23,8 +26,12 @@ class Handler extends ExceptionHandler
      */
     public function register(): void
     {
-        $this->reportable(function (Throwable $e) {
+        $this->reportable(function (GeneralJsonExpection $e) {
+            dump('1234');
             //
+        });
+        $this->renderable(function (GeneralJsonExpection $expection){
+
         });
     }
 }

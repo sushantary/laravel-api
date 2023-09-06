@@ -2,6 +2,7 @@
 
 namespace App\Repositories;
 
+use App\Exceptions\GeneralJsonExpection;
 use App\Models\Comment;
 use Illuminate\Support\Facades\DB;
 class CommentRepository extends BaseRepository
@@ -41,9 +42,7 @@ class CommentRepository extends BaseRepository
         // TODO: Implement forceDelete() method.
         return DB::transaction(function ()use($comment){
            $deleted = $$comment->forceDelete();
-           if(!$deleted){
-               throw new \Exception('Failed to delete the comment');
-           }
+           throw_if(!$deleted,GeneralJsonExpection::class,'Failed to delete comment.');
            return $deleted;
         });
 
